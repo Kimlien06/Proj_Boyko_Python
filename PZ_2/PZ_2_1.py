@@ -8,15 +8,13 @@ U = float(input("Введите скорость течения реки: "))
 T1 = float(input("Введите время движения лодки по озеру: "))
 T2 = float(input("Введите время движения лодки по реке: "))
 
-try:
-    if U >= V:
-        raise ValueError('Скорость течения реки должно быть меньше скорости лодки')
-    elif T1 < 0 or T2 < 0:
-        raise ValueError('Время не может быть меньше 0')
-    elif T1 < T2:
-        raise ValueError('Время в стоячей воде не может быть меняше времени против течения')
-except ValueError:
-    print()
+
+if U >= V:
+    raise ValueError('Скорость течения реки должно быть меньше скорости лодки')
+elif T1 < 0 or T2 < 0:
+    raise ValueError('Время не может быть меньше 0')
+elif T1 > T2:
+    raise ValueError('Время в стоячей воде не может быть больше времени против течения')
 
 speed_river = V - U
 
@@ -24,7 +22,7 @@ speed_lake = V
 
 s = speed_river * T2 + speed_lake * T1
 
-print(s)
+print(f"Общий путь лодки составит {s} км")
 
 
 
