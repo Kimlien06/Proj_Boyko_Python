@@ -5,7 +5,7 @@
 # зависимости от потраченной суммы.
 
 purchase_price = input('Введите стоимость покупки: ')
-sale = 100
+sale = 0
 
 while type(purchase_price) != int:
     try:
@@ -17,18 +17,14 @@ while type(purchase_price) != int:
         purchase_price = input('Введите стоимость покупки: ')
 
 if purchase_price < 500:
-    sale -= 98
-    purchase_price = purchase_price * 0.98
+    sale = 2
 elif 500 <= purchase_price < 1000:
-    sale -= 97
-    purchase_price = purchase_price * 0.97
+    sale = 3
 elif 1000 <= purchase_price < 1500:
-    sale -= 96
-    purchase_price = purchase_price * 0.96
+    sale = 4
 elif 1500 <= purchase_price < 2000:
-    sale -= 95
-    purchase_price = purchase_price * 0.95
+    sale = 5
 else:
-    sale -= 100
+    sale = 0
 
 print(f"Скидка на покупку продуктов составила {sale} %.")
