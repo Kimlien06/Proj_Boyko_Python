@@ -3,6 +3,7 @@
 # вывести TRUE, если нет — вывести FALSE.
 
 N = int(input("Введите целое число: "))
+flag = False
 while type(N) != float:
     try:
         N = float(N)
@@ -12,4 +13,13 @@ while type(N) != float:
         print("Неккоретно введены данные")
         N = int(input("Введите целое число: "))
 
+while N > 0:
+    digit = N % 10
 
+    if digit == 2:
+        flag = True
+        break
+
+    N = N // 10
+
+print(flag)
