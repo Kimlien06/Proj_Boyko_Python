@@ -9,6 +9,6 @@ while type(A) != int:
         A = input('Введите целое число: ')
 
 if A // 2 == 0:
-    print("Число чётное")
+    print("True")
 else:
-    print("Число нечётное")
+    print("False")
