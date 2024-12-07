@@ -10,7 +10,7 @@ sale = 100
 while type(purchase_price) != int:
     try:
         purchase_price = int(purchase_price)
-        if purchase_price < 0:
+        if purchase_price <= 0:
             raise ValueError('Стоимость покупки не может быть меньше 0')
     except ValueError:
         print("Неправильно введена сумма покупки")
@@ -32,4 +32,4 @@ else:
     sale -= 100
 
 print(f"Скидка на покупку продуктов составила {sale} %.")
-print(f"Стоимость покупки составит {purchase_price} руб.")
+
