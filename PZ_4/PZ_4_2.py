@@ -4,16 +4,16 @@
 
 N = int(input("Введите целое число: "))
 flag = False
-while type(N) != float:
+while type(N) != int:
     try:
-        N = float(N)
+        N = int(N)
         if N < 0:
             raise ValueError("Число не может быть меньше 0")
     except ValueError:
         print("Неккоретно введены данные")
         N = int(input("Введите целое число: "))
 
-while N > 0:
+while True:
     digit = N % 10
 
     if digit == 2:
