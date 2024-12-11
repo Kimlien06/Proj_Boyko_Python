@@ -14,9 +14,9 @@ while type(N) != int:
         N = int(input("Введите целое число: "))
 
 while True:
-    digit = N % 10
+    # digit = N % 10
 
-    if digit == 2:
+    if (N % 10) == 2:
         flag = True
         break
 
