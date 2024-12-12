@@ -2,7 +2,7 @@
 # деления определить, имеется ли в записи числа N цифра «2». Если имеется, то
 # вывести TRUE, если нет — вывести FALSE.
 
-N = int(input("Введите целое число: "))
+N = input("Введите целое число: ")
 flag = False
 while type(N) != int:
     try:
@@ -14,9 +14,9 @@ while type(N) != int:
         N = int(input("Введите целое число: "))
 
 while True:
-    # digit = N % 10
+    digit = N % 10
 
-    if (N % 10) == 2:
+    if digit == 2:
         flag = True
         break
 
