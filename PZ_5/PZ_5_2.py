@@ -7,14 +7,15 @@ import math
 
 
 def validate_input(a):
-    try:
-        a = float(a)
-        if a <= 0:
-            raise ValueError("Сторона треугольника должна быть положительным числом.")
-        return a
-    except ValueError as e:
-        print(f"Ошибка: {e}")
-        return None
+    while type(a) != float:
+        try:
+            a = float(a)
+            if a <= 0:
+                raise ValueError("Сторона треугольника должна быть положительным числом.")
+            return a
+        except ValueError as e:
+            print(f"Ошибка: {e}")
+            return None
 
 
 def triangle(a):
