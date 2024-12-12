@@ -20,7 +20,7 @@ def validate_input(a):
 
 def triangle(a):
     p = 3 * a
-    s = (a ** 2) * (math.sqrt(3) / 4)
+    s = round((a ** 2) * (math.sqrt(3) / 4))
     return p, s
 
 
