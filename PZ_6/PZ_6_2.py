@@ -18,16 +18,16 @@ def find_first_local_minimum(lst):
 
 def main():
     try:
-        N = int(input("Введите размер списка N: "))
-        if N <= 0:
+        n = int(input("Введите размер списка N: "))
+        if n <= 0:
             print("Размер списка должен быть положительным числом.")
             return
 
-        print(f"Введите {N} элементов списка через пробел:")
+        print(f"Введите {n} элементов списка через пробел:")
         lst = list(map(int, input().split()))
 
         if len(lst) != N:
-            print(f"Ожидалось {N} элементов, но введено {len(lst)}.")
+            print(f"Ожидалось {n} элементов, но введено {len(lst)}.")
             return
 
         result = find_first_local_minimum(lst)

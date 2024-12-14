@@ -11,6 +11,7 @@ def swap_pairs(lst):
     return lst
 
 
+
 def main():
     try:
         n = int(input("Введите четное число N (размер списка): "))
