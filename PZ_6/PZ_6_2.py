@@ -26,7 +26,7 @@ def main():
         print(f"Введите {n} элементов списка через пробел:")
         lst = list(map(int, input().split()))
 
-        if len(lst) != N:
+        if len(lst) != n:
             print(f"Ожидалось {n} элементов, но введено {len(lst)}.")
             return
 
