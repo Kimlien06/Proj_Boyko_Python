@@ -17,5 +17,3 @@ for i in range(len(letters) - 1):
 
 print(result)
 
-
-
