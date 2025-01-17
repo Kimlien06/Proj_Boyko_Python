@@ -18,3 +18,4 @@ for i in range(1, len(letters)):
         break
 else:
     print(0)
+
