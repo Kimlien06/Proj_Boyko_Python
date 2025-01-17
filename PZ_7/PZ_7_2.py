@@ -4,18 +4,17 @@
 
 input_string = input('Введите строку: ')
 letters = []
+result = 0
 
 for sym in input_string:
     if sym.isalpha():
         letters.append(sym)
 
-for i in range(1, len(letters)):
-    if letters[i] < letters[i - 1]:
-        for j in range(len(input_string)):
-            if input_string[j] == letters[i]:
-                print(j + 1)  # +1, так как индексация начинается с 0
-                break
+for i in range(len(letters) - 1):
+    if ord(letters[i]) > ord(letters[i + 1]):
+        result = i
         break
-else:
-    print(0)
+
+print(result)
+
 
