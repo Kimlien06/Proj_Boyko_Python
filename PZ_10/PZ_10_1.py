@@ -12,8 +12,11 @@ domknigi = {'Толстой', 'Грибоедов', 'Чехов', 'Пушкин'
 bookmarket = {'Пушкин', 'Достоевский', 'Маяковский'}
 gallery = {'Чехов', 'Тютчев', 'Пушкин'}
 
+all_book = magistr | domknigi | bookmarket | gallery
+common_book = magistr & domknigi & bookmarket & gallery
+not_all_book = all_book - common_book
 
-print(magistr | domknigi | bookmarket | gallery)
-print(magistr & domknigi & bookmarket & gallery)
-print(magistr - domknigi - bookmarket - gallery)
+print(all_book)
+print(common_book)
+print(not_all_book)
 
