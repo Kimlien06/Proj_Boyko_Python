@@ -19,4 +19,3 @@ not_all_book = all_book - common_book
 print(all_book)
 print(common_book)
 print(not_all_book)
-
