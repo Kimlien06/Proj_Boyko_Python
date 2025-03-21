@@ -6,7 +6,9 @@ from functools import reduce
 # Пример матрицы
 size = int(input("Введите размер массива: "))
 matrix = [[i + j * size for i in range(size)] for j in range(size)]
-print(matrix)
+print("Исходная матрица:")
+for row in matrix:
+    print(row)
 
 
 def is_positive_even(element):
