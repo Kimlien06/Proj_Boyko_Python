@@ -4,11 +4,9 @@
 from functools import reduce
 
 # Пример матрицы
-matrix = [
-    [1, -2, 3],
-    [4, 5, 6],
-    [7, 8, -10]
-]
+size = int(input("Введите размер массива: "))
+matrix = [[i + j * size for i in range(size)] for j in range(size)]
+print(matrix)
 
 
 def is_positive_even(element):
