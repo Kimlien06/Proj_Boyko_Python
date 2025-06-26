@@ -10,19 +10,19 @@ class TodoApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Умный To-Do List")
-        self.root.geometry("900x750")
+        self.root.geometry("1000x950")
         self.root.resizable(False, False)
 
         # Уникальный дизайн
-        self.root.configure(bg="#f0f8ff")
+        self.root.configure(bg='white')
         self.style = ttk.Style()
-        self.style.theme_use('clam')
+        self.style.theme_use('default')
 
-        # Настройка стилей
-        self.style.configure('TButton', font=('Arial', 10), padding=5, background="#4a7a8c", foreground="white")
+        # Настраиваем стили
+        self.style.configure('TFrame', background='white')
+        self.style.configure('TLabel', font=('Arial', 12, 'bold'), background='white')
+        self.style.configure('TButton', font=('Arial', 10, 'bold'), padding=5, background='light grey', borderwidth=1)
         self.style.configure('TEntry', font=('Arial', 12), padding=5)
-        self.style.configure('TLabel', font=('Arial', 12, 'bold'), background="#f0f8ff", foreground="#2c3e50")
-        self.style.configure('Treeview', font=('Arial', 11), rowheight=25)
         self.style.configure('Treeview.Heading', font=('Arial', 11, 'bold'))
         self.style.map('TButton', background=[('active', '#3a6a7c')])
 
@@ -30,8 +30,8 @@ class TodoApp:
         self.header_frame = ttk.Frame(root)
         self.header_frame.pack(pady=10)
 
-        self.title_label = ttk.Label(self.header_frame, text="Мой To-Do List", style='TLabel')
-        self.title_label.pack()
+        self.title_label = ttk.Label(self.header_frame, text="Мой To-Do List", font=('Arial', 16, 'bold'))
+        self.title_label.pack(pady=10)
 
         # Дата
         self.date_label = ttk.Label(self.header_frame, text=self.get_current_date(), style='TLabel')
@@ -39,23 +39,23 @@ class TodoApp:
 
         # Поле ввода задачи
         self.input_frame = ttk.Frame(root)
-        self.input_frame.pack(pady=10)
+        self.input_frame.pack()
 
-        self.task_label = ttk.Label(self.input_frame, text="Задача:", style='TLabel')
-        self.task_label.grid(row=0, column=0, padx=5, sticky='w')
+        self.task_label = ttk.Label(self.input_frame, text="Задача:", padding=5)
+        self.task_label.grid(row=0, column=0, sticky='w')
 
-        self.task_entry = ttk.Entry(self.input_frame, width=40, style='TEntry')
-        self.task_entry.grid(row=0, column=1, padx=5)
+        self.task_enter = ttk.Entry(self.input_frame, width=40, style='TEntry')
+        self.task_enter.grid(row=0, column=1)
 
         # Поле для дополнительной информации
         self.details_frame = ttk.Frame(root)
-        self.details_frame.pack(pady=5)
+        self.details_frame.pack()
 
-        self.details_label = ttk.Label(self.details_frame, text="Доп. информация:", style='TLabel')
-        self.details_label.grid(row=0, column=0, padx=5, sticky='w')
+        self.details_label = ttk.Label(self.details_frame, text="Доп. информация:", padding=5)
+        self.details_label.grid(row=0, column=0, sticky='w')
 
         self.details_entry = ttk.Entry(self.details_frame, width=40, style='TEntry')
-        self.details_entry.grid(row=0, column=1, padx=5)
+        self.details_entry.grid(row=0, column=2, pady=15, sticky='w')
 
         # Уровень сложности
         self.difficulty_frame = ttk.Frame(root)
@@ -69,9 +69,10 @@ class TodoApp:
             self.difficulty_frame,
             textvariable=self.difficulty_var,
             values=["Легкая", "Средняя", "Сложная"],
-            state="readonly",
+            state='readonly',
             width=15
         )
+
         self.difficulty_combobox.current(0)
         self.difficulty_combobox.grid(row=0, column=1, padx=5, sticky='w')
 
@@ -92,7 +93,7 @@ class TodoApp:
             foreground='white',
             borderwidth=2
         )
-        # Устанавливаем дефолтное значение - завтрашняя дата
+
         tomorrow = datetime.now() + timedelta(days=1)
         self.deadline_entry.set_date(tomorrow)
         self.deadline_entry.grid(row=0, column=1, padx=5, sticky='w')
@@ -100,53 +101,78 @@ class TodoApp:
         # Кнопка добавления
         self.add_button_frame = ttk.Frame(root)
         self.add_button_frame.pack(pady=10)
-
         self.add_button = ttk.Button(self.add_button_frame, text="Добавить", command=self.add_task)
         self.add_button.pack()
 
-        # Список задач
-        self.task_frame = ttk.Frame(root)
-        self.task_frame.pack(pady=10)
+        # Фрейм для таблицы и скроллбара
+        self.table_frame = ttk.Frame(root)
+        self.table_frame.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
 
+        # Treeview (таблица задач)
         self.task_tree = ttk.Treeview(
-            self.task_frame,
+            self.table_frame,
             columns=('Status', 'Task', 'Details', 'Difficulty', 'Deadline'),
             show='headings',
             selectmode='browse',
             height=15
         )
-        self.task_tree.column('Status', width=50, anchor='center')
-        self.task_tree.column('Task', width=200, anchor='w')
-        self.task_tree.column('Details', width=200, anchor='w')
-        self.task_tree.column('Difficulty', width=100, anchor='center')
-        self.task_tree.column('Deadline', width=100, anchor='center')
+
+        # Настройка колонок и заголовков
+        self.task_tree.column('Status', width=25, anchor='center')
+        self.task_tree.column('Task', width=50, anchor='w')
+        self.task_tree.column('Details', width=50, anchor='w')
+        self.task_tree.column('Difficulty', width=25, anchor='center')
+        self.task_tree.column('Deadline', width=25, anchor='center')
         self.task_tree.heading('Status', text='✓')
         self.task_tree.heading('Task', text='Задача')
         self.task_tree.heading('Details', text='Доп. информация')
         self.task_tree.heading('Difficulty', text='Сложность')
         self.task_tree.heading('Deadline', text='Дедлайн')
-        self.task_tree.pack()
+
+        # Скроллбар
+        scrollbar = ttk.Scrollbar(self.table_frame, orient="vertical", command=self.task_tree.yview)
+        self.task_tree.configure(yscrollcommand=scrollbar.set)
+        self.task_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Фрейм для кнопок управления (под таблицей)
+        self.buttons_frame = ttk.Frame()
+        self.buttons_frame.pack(fill=tk.X, pady=(5, 10))
 
         # Кнопки управления
-        self.control_frame = ttk.Frame(root)
-        self.control_frame.pack(pady=10)
+        self.complete_button = ttk.Button(
+            self.buttons_frame,
+            text="Выполнить",
+            command=self.complete_task,
+            width=20
+        )
+        self.delete_button = ttk.Button(
+            self.buttons_frame,
+            text="Удалить",
+            command=self.delete_task,
+            width=20
+        )
+        self.details_button = ttk.Button(
+            self.buttons_frame,
+            text="Детали",
+            command=self.view_details,
+            width=20
+        )
 
-        self.complete_button = ttk.Button(self.control_frame, text="Отметить выполненной", command=self.complete_task)
-        self.complete_button.pack(side=tk.LEFT, padx=5)
-
-        self.delete_button = ttk.Button(self.control_frame, text="Удалить", command=self.delete_task)
-        self.delete_button.pack(side=tk.LEFT, padx=5)
-
-        self.view_details_button = ttk.Button(self.control_frame, text="Просмотреть детали", command=self.view_details)
-        self.view_details_button.pack(side=tk.LEFT, padx=5)
+        # Размещение кнопок с отступами
+        self.complete_button.pack(side=tk.LEFT, padx=15)
+        self.delete_button.pack(side=tk.LEFT, padx=15)
+        self.details_button.pack(side=tk.LEFT, padx=15)
 
         # Статистика
-        self.stats_frame = ttk.Frame(root)
-        self.stats_frame.pack(pady=10)
+        self.stats_frame = ttk.Frame()
+        self.stats_frame.pack(fill=tk.X, pady=(0, 10))
 
-        self.stats_label = ttk.Label(self.stats_frame, text="Всего задач: 0 | Выполнено: 0 | Просрочено: 0",
-                                     style='TLabel')
-        self.stats_label.pack()
+        self.stats_label = ttk.Label(
+            self.stats_frame,
+            text="Всего задач: 0 | Выполнено: 0 | Просрочено: 0"
+        )
+        self.stats_label.pack(side=tk.LEFT, padx=15)
 
         # Загрузка задач
         self.tasks = []
@@ -154,7 +180,7 @@ class TodoApp:
         self.update_stats()
 
         # Оригинальные фичи
-        self.task_entry.bind("<Return>", lambda event: self.add_task())
+        self.task_enter.bind("<Return>", lambda event: self.add_task())
         self.task_tree.bind("<Double-1>", lambda event: self.complete_task())
 
     def get_current_date(self):
@@ -162,7 +188,7 @@ class TodoApp:
         return today.strftime("%d.%m.%Y")
 
     def add_task(self):
-        task_text = self.task_entry.get().strip()
+        task_text = self.task_enter.get().strip()
         details_text = self.details_entry.get().strip()
         difficulty = self.difficulty_var.get()
         deadline = self.deadline_var.get()
@@ -176,11 +202,10 @@ class TodoApp:
                 "completed": False,
                 "created": self.get_current_date()
             })
-            self.update_task_list()
-            self.task_entry.delete(0, tk.END)
+            self.update_tasks_list()
+            self.task_enter.delete(0, tk.END)
             self.details_entry.delete(0, tk.END)
             self.difficulty_combobox.current(0)
-            # Устанавливаем дефолтное значение дедлайна - завтра
             tomorrow = datetime.now() + timedelta(days=1)
             self.deadline_entry.set_date(tomorrow)
             self.save_tasks()
@@ -193,7 +218,7 @@ class TodoApp:
         if selected_item:
             index = int(selected_item[0][1:]) - 1
             self.tasks[index]["completed"] = not self.tasks[index]["completed"]
-            self.update_task_list()
+            self.update_tasks_list()
             self.save_tasks()
             self.update_stats()
 
@@ -202,9 +227,12 @@ class TodoApp:
         if selected_item:
             index = int(selected_item[0][1:]) - 1
             del self.tasks[index]
-            self.update_task_list()
+            self.update_tasks_list()
             self.save_tasks()
             self.update_stats()
+            # После удаления проверяем, остались ли задачи
+            if not self.tasks:
+                self.buttons_frame.pack_forget()
 
     def view_details(self):
         selected_item = self.task_tree.selection()
@@ -226,7 +254,7 @@ class TodoApp:
 
             messagebox.showinfo("Детали задачи", details)
 
-    def update_task_list(self):
+    def update_tasks_list(self):
         self.task_tree.delete(*self.task_tree.get_children())
         for i, task in enumerate(self.tasks, 1):
             status = "✓" if task["completed"] else ""
@@ -236,36 +264,26 @@ class TodoApp:
             deadline = task["deadline"]
             if task["completed"]:
                 task_text = f"✓ {task_text}"
-            # Подсветка просроченных задач
-            tags = ()
-            if not task["completed"]:
-                try:
-                    deadline_date = datetime.strptime(deadline, "%d.%m.%Y")
-                    if deadline_date < datetime.now():
-                        tags = ('overdue',)
-                except ValueError:
-                    pass
-
             self.task_tree.insert('', 'end', iid=f"t{i}",
-                                  values=(status, task_text, details_text, difficulty, deadline), tags=tags)
+                                  values=(status, task_text, details_text, difficulty, deadline))
+            self.task_tree.tag_configure('overdue', background='#ffcccc')
 
-        # Настройка цвета для просроченных задач
-        self.task_tree.tag_configure('overdue', background='#ffcccc')
+        # Показать или скрыть кнопки в зависимости от наличия задач
+        if self.tasks:
+            self.buttons_frame.pack(pady=5, fill=tk.X)
+        else:
+            self.buttons_frame.pack_forget()
 
     def update_stats(self):
         total = len(self.tasks)
         completed = sum(1 for task in self.tasks if task["completed"])
 
-        # Подсчет просроченных задач
         overdue = 0
         for task in self.tasks:
             if not task["completed"] and "deadline" in task:
-                try:
-                    deadline_date = datetime.strptime(task["deadline"], "%d.%m.%Y")
-                    if deadline_date < datetime.now():
-                        overdue += 1
-                except ValueError:
-                    pass
+                deadline_date = datetime.strptime(task["deadline"], "%d.%m.%Y")
+                if deadline_date < datetime.now():
+                    overdue += 1
 
         self.stats_label.config(text=f"Всего задач: {total} | Выполнено: {completed} | Просрочено: {overdue}")
 
@@ -278,8 +296,8 @@ class TodoApp:
             try:
                 with open("tasks.json", "r") as f:
                     self.tasks = json.load(f)
-                self.update_task_list()
-            except (EOFError, json.JSONDecodeError):
+                self.update_tasks_list()
+            except json.JSONDecodeError:
                 self.tasks = []
         else:
             self.tasks = []
